@@ -1,3 +1,4 @@
+// src/App.tsx
 import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -9,16 +10,22 @@ import Index from "./pages/Index";
 import MissionDetail from "./pages/MissionDetail";
 import NotFound from "./pages/NotFound";
 
-import TopAd from "./components/TopAd"; // <- AD COMPONENT
+// Ad components (create these under src/components/)
+import TopAd from "@/components/TopAd";
+import StickyBottomAd from "@/components/StickyBottomAd";
+// In-feed / In-article / Multiplex are used inside pages, not here
+// import InFeedAd from "@/components/InFeedAd";
+// import InArticleAd from "@/components/InArticleAd";
+// import MultiplexAd from "@/components/MultiplexAd";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Ad refresh state
+  // Used to trigger ad refresh when the user interacts
   const [refreshAd, setRefreshAd] = useState(0);
 
-  // Call this whenever the user selects anything
   function handleUserAction() {
+    // incrementing forces ad components to re-run their ad push effect
     setRefreshAd((prev) => prev + 1);
   }
 
@@ -28,26 +35,23 @@ const App = () => {
         <Toaster />
         <Sonner />
 
-        {/* TOP GOOGLE ADSENSE BANNER */}
+        {/* Top (header) Ad — refreshKey could be passed down if TopAd needs it */}
         <TopAd refreshKey={refreshAd} />
 
-        {/* MAIN ROUTER */}
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={<Index onUserAction={handleUserAction} />}
-            />
-
+            <Route path="/" element={<Index onUserAction={handleUserAction} />} />
             <Route
               path="/mission/:id"
               element={<MissionDetail onUserAction={handleUserAction} />}
             />
-
-            {/* CATCH-ALL */}
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+
+        {/* Sticky bottom banner across the whole site */}
+        <StickyBottomAd refreshKey={refreshAd} />
       </TooltipProvider>
     </QueryClientProvider>
   );

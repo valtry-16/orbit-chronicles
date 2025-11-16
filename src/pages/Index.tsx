@@ -1,6 +1,12 @@
+// src/pages/Index.tsx
+
 import { useState, useMemo } from "react";
 import { missions } from "@/data/missions";
 import { MissionCard } from "@/components/MissionCard";
+
+import InFeedAd from "@/components/InFeedAd";
+
+// Individual component imports
 import { MissionComparison } from "@/components/MissionComparison";
 import { GlobeTracker } from "@/components/GlobeTracker";
 import { MissionStatistics } from "@/components/MissionStatistics";
@@ -39,12 +45,13 @@ import {
   Tabs, TabsContent, TabsList, TabsTrigger
 } from "@/components/ui/tabs";
 
-// ⭐ Accept Ad Refresh Callback
+
+// ⭐ Index page receives `onUserAction` from App.tsx
 const Index = ({ onUserAction }) => {
-  
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [agencyFilter, setAgencyFilter] = useState<string>("all");
-  const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [agencyFilter, setAgencyFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
   const [activeTab, setActiveTab] = useState("missions");
 
   const agencies = useMemo(() => {
@@ -95,8 +102,8 @@ const Index = ({ onUserAction }) => {
 
       {/* MAIN CONTENT */}
       <section className="container mx-auto px-4 py-16">
-        
-        {/* ⭐ AD REFRESH on tab switch */}
+
+        {/* ⭐ Tabs refresh ads on switch */}
         <Tabs
           value={activeTab}
           onValueChange={(v) => {
@@ -105,10 +112,9 @@ const Index = ({ onUserAction }) => {
           }}
           className="space-y-8"
         >
+          <TabsList className="grid w-full max-w-6xl mx-auto grid-cols-2 md:grid-cols-3 lg:grid-cols-10 gap-2 p-2 bg-card/50">
 
-          <TabsList className="grid w-full max-w-6xl mx-auto grid-cols-2 md:grid-cols-3 lg:grid-cols-10 gap-2 h-auto bg-card/50 backdrop-blur p-2">
-
-            {/* ⭐ Every TabTrigger now refreshes ads */}
+            {/* Each tab triggers ad refresh */}
             <TabsTrigger value="missions" onClick={onUserAction}>
               <Search className="w-4 h-4 mr-2" /> Missions
             </TabsTrigger>
@@ -126,7 +132,7 @@ const Index = ({ onUserAction }) => {
             </TabsTrigger>
 
             <TabsTrigger value="statistics" onClick={onUserAction}>
-              <BarChart3 className="w-4 h-4 mr-2" /> Statistics
+              <BarChart3 className="w-4 h-4 mr-2" /> Stats
             </TabsTrigger>
 
             <TabsTrigger value="timeline" onClick={onUserAction}>
@@ -154,19 +160,19 @@ const Index = ({ onUserAction }) => {
             </TabsTrigger>
 
             <TabsTrigger value="3d-orbits" onClick={onUserAction}>
-              <Circle className="w-4 h-4 mr-2" /> 3D Orbits
+              <Circle className="w-4 h-4 mr-2" /> 3D
             </TabsTrigger>
 
             <TabsTrigger value="weather" onClick={onUserAction}>
-              <CloudSun className="w-4 h-4 mr-2" /> Space Weather
+              <CloudSun className="w-4 h-4 mr-2" /> Weather
             </TabsTrigger>
 
             <TabsTrigger value="countdown" onClick={onUserAction}>
-              <Timer className="w-4 h-4 mr-2" /> Launch Countdown
+              <Timer className="w-4 h-4 mr-2" /> Countdown
             </TabsTrigger>
 
             <TabsTrigger value="neo" onClick={onUserAction}>
-              <Sparkles className="w-4 h-4 mr-2" /> Asteroids
+              <Sparkles className="w-4 h-4 mr-2" /> NEO
             </TabsTrigger>
 
             <TabsTrigger value="alerts" onClick={onUserAction}>
@@ -174,24 +180,27 @@ const Index = ({ onUserAction }) => {
             </TabsTrigger>
 
             <TabsTrigger value="impacts" onClick={onUserAction}>
-              <History className="w-4 h-4 mr-2" /> Impact History
+              <History className="w-4 h-4 mr-2" /> Impacts
             </TabsTrigger>
 
             <TabsTrigger value="ar" onClick={onUserAction}>
-              <Eye className="w-4 h-4 mr-2" /> AR View
+              <Eye className="w-4 h-4 mr-2" /> AR
             </TabsTrigger>
 
             <TabsTrigger value="citizen" onClick={onUserAction}>
-              <Users className="w-4 h-4 mr-2" /> Citizen Science
+              <Users className="w-4 h-4 mr-2" /> Citizen
             </TabsTrigger>
+
           </TabsList>
 
-          {/* MISSIONS TAB */}
+          {/* ===================================== */}
+          {/*               MISSIONS TAB            */}
+          {/* ===================================== */}
           <TabsContent value="missions" className="space-y-8">
 
-            {/* ⭐ Search refreshes ad */}
+            {/* SEARCH */}
             <Input
-              placeholder="Search missions, agencies, or descriptions..."
+              placeholder="Search missions..."
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
@@ -200,74 +209,86 @@ const Index = ({ onUserAction }) => {
               className="pl-10 bg-card/50 border-primary/30 focus:border-primary h-12"
             />
 
-            {/* ⭐ Clear Filters refreshes ad */}
-            <Button
-              variant="outline"
-              onClick={() => {
-                setSearchQuery("");
-                setAgencyFilter("all");
-                setTypeFilter("all");
-                onUserAction();
-              }}
-              className="border-primary/30"
-            >
-              Clear Filters
-            </Button>
+            {/* FILTERS */}
+            <div className="flex flex-col sm:flex-row gap-4">
 
-            {/* ⭐ Filter By Agency */}
-            <Select
-              value={agencyFilter}
-              onValueChange={(v) => {
-                setAgencyFilter(v);
-                onUserAction();
-              }}
-            >
-              <SelectTrigger className="bg-card/50 border-primary/30">
-                <SelectValue placeholder="All Agencies" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Agencies</SelectItem>
-                {agencies.map((agency) => (
-                  <SelectItem key={agency} value={agency}>
-                    {agency}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <Select
+                value={agencyFilter}
+                onValueChange={(v) => {
+                  setAgencyFilter(v);
+                  onUserAction();
+                }}
+              >
+                <SelectTrigger className="bg-card/50 border-primary/30">
+                  <SelectValue placeholder="All Agencies" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Agencies</SelectItem>
+                  {agencies.map((agency) => (
+                    <SelectItem key={agency} value={agency}>
+                      {agency}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-            {/* ⭐ Filter By Type */}
-            <Select
-              value={typeFilter}
-              onValueChange={(v) => {
-                setTypeFilter(v);
-                onUserAction();
-              }}
-            >
-              <SelectTrigger className="bg-card/50 border-primary/30">
-                <SelectValue placeholder="All Types" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                {missionTypes.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+              <Select
+                value={typeFilter}
+                onValueChange={(v) => {
+                  setTypeFilter(v);
+                  onUserAction();
+                }}
+              >
+                <SelectTrigger className="bg-card/50 border-primary/30">
+                  <SelectValue placeholder="All Types" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  {missionTypes.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-            {/* ⭐ Missions trigger ad refresh */}
+            </div>
+
+            {/* RESULTS COUNT */}
+            <p className="text-sm text-muted-foreground">
+              Showing {filteredMissions.length} of {missions.length} missions
+            </p>
+
+            {/* ===================================== */}
+            {/*   MISSION CARDS + IN-FEED ADS INSERT  */}
+            {/* ===================================== */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredMissions.map((mission) => (
-                <div key={mission.id} onClick={onUserAction}>
-                  <MissionCard mission={mission} />
-                </div>
+
+              {filteredMissions.map((mission, index) => (
+                <>
+
+                  {/* Mission Card */}
+                  <div key={mission.id} onClick={onUserAction}>
+                    <MissionCard mission={mission} />
+                  </div>
+
+                  {/* Insert In-Feed Ad every 6 cards */}
+                  {index % 6 === 0 && index !== 0 ? (
+                    <div className="col-span-full">
+                      <InFeedAd refreshKey={index} />
+                    </div>
+                  ) : null}
+
+                </>
               ))}
+
             </div>
 
             {filteredMissions.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-muted-foreground text-lg">No missions found.</p>
+                <p className="text-muted-foreground text-lg">
+                  No missions found matching your filters.
+                </p>
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -282,81 +303,28 @@ const Index = ({ onUserAction }) => {
                 </Button>
               </div>
             )}
+
           </TabsContent>
 
-          {/* OTHER TABS — refresh ad automatically on tab switch */}
-
-          <TabsContent value="compare">
-            <MissionComparison />
-          </TabsContent>
-
-          <TabsContent value="tracker">
-            <GlobeTracker />
-          </TabsContent>
-
-          <TabsContent value="telemetry">
-            <TelemetryDashboard />
-          </TabsContent>
-
-          <TabsContent value="statistics">
-            <MissionStatistics />
-          </TabsContent>
-
-          <TabsContent value="timeline">
-            <MissionTimeline />
-          </TabsContent>
-
-          <TabsContent value="planner">
-            <MissionPlanner />
-          </TabsContent>
-
-          <TabsContent value="learning">
-            <OrbitalMechanicsLearning />
-          </TabsContent>
-
-          <TabsContent value="quiz">
-            <EducationalQuiz />
-          </TabsContent>
-
-          <TabsContent value="glossary">
-            <TechnicalGlossary />
-          </TabsContent>
-
-          <TabsContent value="spacecraft-compare">
-            <SpacecraftComparison />
-          </TabsContent>
-
-          <TabsContent value="3d-orbits">
-            <OrbitalMechanics3D />
-          </TabsContent>
-
-          <TabsContent value="weather">
-            <SpaceWeatherDashboard />
-          </TabsContent>
-
-          <TabsContent value="countdown">
-            <MissionCountdown />
-          </TabsContent>
-
-          <TabsContent value="neo">
-            <NEOTracker />
-          </TabsContent>
-
-          <TabsContent value="alerts">
-            <AlertSubscriptions />
-          </TabsContent>
-
-          <TabsContent value="impacts">
-            <ImpactEventsHistory />
-          </TabsContent>
-
-          <TabsContent value="ar">
-            <ARSkyView />
-          </TabsContent>
-
-          <TabsContent value="citizen">
-            <CitizenScience />
-          </TabsContent>
+          {/* === OTHER TABS === */}
+          <TabsContent value="compare"><MissionComparison /></TabsContent>
+          <TabsContent value="tracker"><GlobeTracker /></TabsContent>
+          <TabsContent value="telemetry"><TelemetryDashboard /></TabsContent>
+          <TabsContent value="statistics"><MissionStatistics /></TabsContent>
+          <TabsContent value="timeline"><MissionTimeline /></TabsContent>
+          <TabsContent value="planner"><MissionPlanner /></TabsContent>
+          <TabsContent value="learning"><OrbitalMechanicsLearning /></TabsContent>
+          <TabsContent value="quiz"><EducationalQuiz /></TabsContent>
+          <TabsContent value="glossary"><TechnicalGlossary /></TabsContent>
+          <TabsContent value="spacecraft-compare"><SpacecraftComparison /></TabsContent>
+          <TabsContent value="3d-orbits"><OrbitalMechanics3D /></TabsContent>
+          <TabsContent value="weather"><SpaceWeatherDashboard /></TabsContent>
+          <TabsContent value="countdown"><MissionCountdown /></TabsContent>
+          <TabsContent value="neo"><NEOTracker /></TabsContent>
+          <TabsContent value="alerts"><AlertSubscriptions /></TabsContent>
+          <TabsContent value="impacts"><ImpactEventsHistory /></TabsContent>
+          <TabsContent value="ar"><ARSkyView /></TabsContent>
+          <TabsContent value="citizen"><CitizenScience /></TabsContent>
 
         </Tabs>
       </section>
