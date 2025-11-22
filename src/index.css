@@ -179,3 +179,32 @@
   display: block !important;
   opacity: 1 !important;
 }
+
+/* =====================================================
+   GLOBAL FIX — REMOVE WHITE GAP ON ALL DEVICES
+   ===================================================== */
+
+/* Force full dark background */
+html, body {
+  background: hsl(230 35% 7%) !important;
+  background-color: hsl(230 35% 7%) !important;
+  min-height: 100vh !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Ensure root container doesn’t create white space */
+#root {
+  background: transparent !important;
+}
+
+/* Ensure sections do NOT default to white */
+section {
+  background: transparent !important;
+}
+
+/* Remove weird default margins that can cause gaps */
+body, html {
+  margin: 0 !important;
+  padding: 0 !important;
+}
