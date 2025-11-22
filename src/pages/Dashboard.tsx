@@ -1,6 +1,5 @@
 // src/pages/Dashboard.tsx
 import { useEffect, useState } from "react";
-import { me, logout } from "@/auth/authService";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
