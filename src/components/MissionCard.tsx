@@ -3,12 +3,41 @@ import { Mission } from "@/data/missions";
 import { useNavigate } from "react-router-dom";
 import { Rocket } from "lucide-react";
 
+// ⭐ Supabase client
+import { supabase } from "@/supabase/client";
+
 interface MissionCardProps {
   mission: Mission;
 }
 
 export const MissionCard = ({ mission }: MissionCardProps) => {
   const navigate = useNavigate();
+
+  // ⭐ Add favorite using Supabase
+  async function addToFavorites(e: any) {
+    e.stopPropagation(); // prevent card click opening detail page
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      alert("Please login to save favorites.");
+      return;
+    }
+
+    const { error } = await supabase.from("favorites").insert({
+      user_id: user.id,
+      mission_id: mission.name,
+    });
+
+    if (error) {
+      alert("Could not add. Maybe already added.");
+      return;
+    }
+
+    alert("Added to Favorites!");
+  }
 
   return (
     <Card
@@ -29,14 +58,28 @@ export const MissionCard = ({ mission }: MissionCardProps) => {
           </div>
         </div>
       </div>
+
       <CardHeader>
         <CardTitle className="text-xl">{mission.name}</CardTitle>
         <CardDescription className="text-muted-foreground">
           Launched: {mission.launchDate}
         </CardDescription>
       </CardHeader>
+
       <CardContent>
-        <p className="text-sm text-foreground/80 line-clamp-3">{mission.description}</p>
+        <p className="text-sm text-foreground/80 line-clamp-3">
+          {mission.description}
+        </p>
+
+        {/* ⭐ ADD TO FAVORITES BUTTON */}
+        <div className="mt-4">
+          <button
+            className="px-3 py-2 bg-primary text-white rounded hover:bg-primary/80 transition"
+            onClick={addToFavorites}
+          >
+            ❤️ Add to Favorites
+          </button>
+        </div>
       </CardContent>
     </Card>
   );
