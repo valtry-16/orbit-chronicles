@@ -2,8 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 🚀 IMPORTANT — Remove whitespace globally */
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden !important;
+  background-color: hsl(var(--background)) !important;
+}
+
+body {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------ */
+/* -------------------- YOUR ORIGINAL THEME ------------- */
+/* ------------------------------------------------------ */
+
 @layer base {
-  /* Advanced space theme with depth */
   :root {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -25,79 +47,61 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
     --radius: 0.75rem;
-    
-    /* Advanced gradients */
+
     --gradient-cosmic: linear-gradient(135deg, hsl(217.2 91.2% 59.8% / 0.2), hsl(271.5 81.3% 55.9% / 0.2));
     --gradient-nebula: linear-gradient(180deg, hsl(217.2 91.2% 59.8% / 0.1), transparent);
     --gradient-aurora: linear-gradient(90deg, hsl(217.2 91.2% 59.8% / 0.3), hsl(142.1 76.2% 36.3% / 0.3), hsl(271.5 81.3% 55.9% / 0.3));
-    
-    /* Advanced shadows */
+
     --shadow-glow: 0 0 40px hsl(217.2 91.2% 59.8% / 0.4);
     --shadow-deep: 0 20px 50px -20px hsl(222.2 84% 4.9% / 0.8);
     --shadow-floating: 0 10px 30px -10px hsl(217.2 91.2% 59.8% / 0.3);
   }
 }
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    /* Deep space background */
     --background: 230 35% 7%;
     --foreground: 210 40% 98%;
 
-    /* Cosmic cards */
     --card: 230 30% 10%;
     --card-foreground: 210 40% 98%;
 
-    /* Nebula popovers */
     --popover: 230 30% 10%;
     --popover-foreground: 210 40% 98%;
 
-    /* Stellar primary - vibrant cyan */
     --primary: 180 100% 50%;
     --primary-foreground: 230 35% 7%;
 
-    /* Galaxy secondary - deep purple */
     --secondary: 265 60% 25%;
     --secondary-foreground: 210 40% 98%;
 
-    /* Muted cosmic dust */
     --muted: 230 25% 20%;
     --muted-foreground: 215 20% 70%;
 
-    /* Accent nebula - magenta */
     --accent: 300 80% 60%;
     --accent-foreground: 230 35% 7%;
 
-    /* Destructive supernova */
     --destructive: 0 90% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    /* Borders and inputs */
     --border: 230 25% 25%;
     --input: 230 25% 20%;
     --ring: 180 100% 50%;
 
     --radius: 0.75rem;
 
-    /* Advanced Space Gradients */
     --gradient-cosmic: linear-gradient(135deg, hsl(230 35% 7%) 0%, hsl(240 60% 12%) 50%, hsl(265 50% 15%) 100%);
     --gradient-nebula: linear-gradient(135deg, hsl(180 100% 50% / 0.15), hsl(300 80% 60% / 0.15), hsl(240 70% 50% / 0.1));
     --gradient-card: linear-gradient(135deg, hsl(230 30% 10% / 0.95), hsl(235 35% 12% / 0.85));
     --gradient-aurora: linear-gradient(90deg, hsl(180 100% 50% / 0.3), hsl(300 80% 60% / 0.3), hsl(180 100% 50% / 0.3));
     --gradient-stars: radial-gradient(circle at 20% 50%, hsl(180 100% 50% / 0.1) 0%, transparent 50%),
                       radial-gradient(circle at 80% 80%, hsl(300 80% 60% / 0.1) 0%, transparent 50%);
-    
-    /* Enhanced Glow Effects */
+
     --glow-primary: 0 0 30px hsl(180 100% 50% / 0.5), 0 0 60px hsl(180 100% 50% / 0.2);
     --glow-card: 0 8px 32px hsl(180 100% 50% / 0.15), inset 0 1px 0 hsl(180 100% 50% / 0.1);
     --glow-accent: 0 0 20px hsl(300 80% 60% / 0.5);
     --glow-border: 0 0 10px hsl(180 100% 50% / 0.3);
-    
-    /* Transitions */
+
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-glow: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
   }
@@ -107,17 +111,16 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground;
-    background-image: 
+    background-image:
       radial-gradient(circle at 20% 50%, hsl(217.2 91.2% 59.8% / 0.05) 0%, transparent 50%),
       radial-gradient(circle at 80% 80%, hsl(271.5 81.3% 55.9% / 0.05) 0%, transparent 50%),
       radial-gradient(circle at 40% 20%, hsl(142.1 76.2% 36.3% / 0.03) 0%, transparent 50%);
     background-attachment: fixed;
   }
-  
-  /* Animated stars background */
+
   body::before {
     content: '';
     position: fixed;
@@ -125,7 +128,7 @@ All colors MUST be HSL.
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
       radial-gradient(2px 2px at 20% 30%, white, transparent),
       radial-gradient(2px 2px at 60% 70%, white, transparent),
       radial-gradient(1px 1px at 50% 50%, white, transparent),
@@ -134,13 +137,12 @@ All colors MUST be HSL.
       radial-gradient(1px 1px at 33% 80%, white, transparent),
       radial-gradient(1px 1px at 15% 90%, white, transparent);
     background-size: 200% 200%;
-    background-position: 0% 0%, 40% 60%, 50% 50%, 80% 10%, 90% 60%, 33% 80%, 15% 90%;
     opacity: 0.3;
     animation: twinkle 200s linear infinite;
     pointer-events: none;
     z-index: 0;
   }
-  
+
   @keyframes twinkle {
     0%, 100% { opacity: 0.3; }
     50% { opacity: 0.5; }
@@ -152,60 +154,60 @@ All colors MUST be HSL.
     @apply bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent;
     animation: gradient-shift 8s ease infinite;
   }
-  
+
   @keyframes gradient-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
   }
-  
+
   .cosmic-glow {
     @apply relative overflow-hidden backdrop-blur-sm;
     background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--card) / 0.8) 100%);
     box-shadow: var(--shadow-deep);
   }
-  
+
   .cosmic-glow::before {
     content: '';
     @apply absolute inset-0 opacity-0 transition-opacity duration-500;
     background: var(--gradient-cosmic);
   }
-  
+
   .cosmic-glow:hover::before {
     @apply opacity-100;
   }
-  
+
   .cosmic-glow::after {
     content: '';
     @apply absolute inset-0 opacity-0 transition-opacity duration-300;
     background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), hsl(217.2 91.2% 59.8% / 0.15), transparent 40%);
   }
-  
+
   .cosmic-glow:hover::after {
     @apply opacity-100;
   }
-  
+
   .transition-smooth {
     @apply transition-all duration-500 ease-in-out;
   }
-  
+
   .glass-morphism {
     @apply backdrop-blur-md bg-card/40 border border-white/10;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   }
-  
+
   .floating-card {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
   }
-  
+
   .glow-pulse {
     animation: glow-pulse 2s ease-in-out infinite;
   }
-  
+
   @keyframes glow-pulse {
     0%, 100% { box-shadow: 0 0 20px hsl(217.2 91.2% 59.8% / 0.3); }
     50% { box-shadow: 0 0 40px hsl(217.2 91.2% 59.8% / 0.6); }
