@@ -2,28 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🚀 IMPORTANT — Remove whitespace globally */
+/* ============================================= */
+/* 🚀 GLOBAL WHITESPACE REMOVAL (Fix for your site) */
+/* ============================================= */
 html, body, #root {
   margin: 0 !important;
   padding: 0 !important;
-  height: 100%;
   width: 100%;
+  height: 100%;
   overflow-x: hidden !important;
   background-color: hsl(var(--background)) !important;
 }
 
+/* Removes accidental bottom/side white gaps */
+body, #root, html {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Some elements create extra space, override all */
+section, div, main, footer {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Prevent broken layouts from expanding page width */
+* {
+  box-sizing: border-box;
+}
+
+/* Body must always fill viewport height */
 body {
   min-height: 100vh;
   overflow-y: auto;
 }
 
-* {
-  box-sizing: border-box;
-}
 
-/* ------------------------------------------------------ */
-/* -------------------- YOUR ORIGINAL THEME ------------- */
-/* ------------------------------------------------------ */
+/* ============================================= */
+/* YOUR ORIGINAL COSMIC THEME (UNCHANGED) */
+/* ============================================= */
 
 @layer base {
   :root {
@@ -62,32 +79,23 @@ body {
   :root {
     --background: 230 35% 7%;
     --foreground: 210 40% 98%;
-
     --card: 230 30% 10%;
     --card-foreground: 210 40% 98%;
-
     --popover: 230 30% 10%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 180 100% 50%;
     --primary-foreground: 230 35% 7%;
-
     --secondary: 265 60% 25%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 230 25% 20%;
     --muted-foreground: 215 20% 70%;
-
     --accent: 300 80% 60%;
     --accent-foreground: 230 35% 7%;
-
     --destructive: 0 90% 60%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 230 25% 25%;
     --input: 230 25% 20%;
     --ring: 180 100% 50%;
-
     --radius: 0.75rem;
 
     --gradient-cosmic: linear-gradient(135deg, hsl(230 35% 7%) 0%, hsl(240 60% 12%) 50%, hsl(265 50% 15%) 100%);
@@ -96,12 +104,12 @@ body {
     --gradient-aurora: linear-gradient(90deg, hsl(180 100% 50% / 0.3), hsl(300 80% 60% / 0.3), hsl(180 100% 50% / 0.3));
     --gradient-stars: radial-gradient(circle at 20% 50%, hsl(180 100% 50% / 0.1) 0%, transparent 50%),
                       radial-gradient(circle at 80% 80%, hsl(300 80% 60% / 0.1) 0%, transparent 50%);
-
+    
     --glow-primary: 0 0 30px hsl(180 100% 50% / 0.5), 0 0 60px hsl(180 100% 50% / 0.2);
     --glow-card: 0 8px 32px hsl(180 100% 50% / 0.15), inset 0 1px 0 hsl(180 100% 50% / 0.1);
     --glow-accent: 0 0 20px hsl(300 80% 60% / 0.5);
     --glow-border: 0 0 10px hsl(180 100% 50% / 0.3);
-
+    
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-glow: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
   }
