@@ -48,12 +48,30 @@
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-cosmic: linear-gradient(135deg, hsl(230 35% 7%) 0%, hsl(240 60% 12%) 50%, hsl(265 50% 15%) 100%);
-    --gradient-nebula: linear-gradient(135deg, hsl(180 100% 50% / 0.15), hsl(300 80% 60% / 0.15), hsl(240 70% 50% / 0.1));
-    --gradient-card: linear-gradient(135deg, hsl(230 30% 10% / 0.95), hsl(235 35% 12% / 0.85));
+    --gradient-cosmic: linear-gradient(
+      135deg,
+      hsl(230 35% 7%) 0%,
+      hsl(240 60% 12%) 50%,
+      hsl(265 50% 15%) 100%
+    );
+
+    --gradient-nebula: linear-gradient(
+      135deg,
+      hsl(180 100% 50% / 0.15),
+      hsl(300 80% 60% / 0.15),
+      hsl(240 70% 50% / 0.1)
+    );
+
+    --gradient-card: linear-gradient(
+      135deg,
+      hsl(230 30% 10% / 0.95),
+      hsl(235 35% 12% / 0.85)
+    );
 
     /* Glows */
-    --glow-primary: 0 0 30px hsl(180 100% 50% / 0.5), 0 0 60px hsl(180 100% 50% / 0.2);
+    --glow-primary: 0 0 30px hsl(180 100% 50% / 0.5),
+      0 0 60px hsl(180 100% 50% / 0.2);
+
     --glow-border: 0 0 10px hsl(180 100% 50% / 0.3);
 
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -67,40 +85,57 @@
 
   body {
     @apply bg-background text-foreground;
-    background-image:
-      radial-gradient(circle at 20% 50%, hsl(217 90% 60% / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsl(270 80% 55% / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 40% 20%, hsl(140 75% 40% / 0.03) 0%, transparent 50%);
+    background-image: radial-gradient(
+        circle at 20% 50%,
+        hsl(217 90% 60% / 0.05),
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        hsl(270 80% 55% / 0.05),
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 20%,
+        hsl(140 75% 40% / 0.03),
+        transparent 50%
+      );
     background-attachment: fixed;
-    position: relative;
     overflow-x: hidden;
+    position: relative;
   }
 
   /* Animated star field */
   body::before {
-    content: '';
-    position: absolute;   /* <— FIXED changed to ABSOLUTE */
+    content: "";
+    position: absolute; /* IMPORTANT FIX */
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;         /* <— Always match page height */
+    height: 100%; /* Prevent extending page height */
     pointer-events: none;
     z-index: 0;
-    background-image:
-      radial-gradient(2px 2px at 20% 30%, white, transparent),
+    opacity: 0.25;
+
+    background-image: radial-gradient(2px 2px at 20% 30%, white, transparent),
       radial-gradient(2px 2px at 60% 70%, white, transparent),
       radial-gradient(1px 1px at 50% 50%, white, transparent),
       radial-gradient(1px 1px at 80% 10%, white, transparent),
       radial-gradient(2px 2px at 90% 60%, white, transparent),
       radial-gradient(1px 1px at 33% 80%, white, transparent),
       radial-gradient(1px 1px at 15% 90%, white, transparent);
-    opacity: 0.25;
+
     animation: twinkle 180s linear infinite;
   }
 
   @keyframes twinkle {
-    0%, 100% { opacity: 0.25; }
-    50% { opacity: 0.4; }
+    0%,
+    100% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 0.4;
+    }
   }
 }
 
@@ -118,25 +153,27 @@
     background: var(--gradient-card);
     box-shadow: var(--glow-border);
   }
-
-  .cosmic-glow:hover::before {
-    opacity: 1;
-  }
 }
 
-/* ======================= */
-/*   FINAL WHITESPACE FIX  */
-/* ======================= */
+/* =============================== */
+/*      FINAL WHITESPACE FIXES     */
+/* =============================== */
 
+/* Reset all margins */
 html,
 body {
   margin: 0 !important;
   padding: 0 !important;
   height: auto !important;
-  overflow-x: hidden !important;
 }
 
-/* Prevent body::before from increasing page height */
+/* Prevent background from extending page */
 body::before {
   height: 100% !important;
+}
+
+/* The TRUE final fix — removes last extra spacing */
+#root > div:last-child {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
